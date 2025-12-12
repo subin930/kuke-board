@@ -25,4 +25,10 @@ class ArticleRepositoryTest {
             log.info("article: {}", article);
         }
     }
+
+    @Test
+    void countTest() {
+        Long count = articleRepository.count(1L, 10000L);
+        log.info("count: {}", count);
+    }
 }

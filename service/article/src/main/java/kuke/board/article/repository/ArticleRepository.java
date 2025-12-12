@@ -10,6 +10,7 @@ import java.util.List;
 
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
+    //페이징 쿼리
     @Query(
             value = "select article.article_id, article.title, article.content, article.board_id, article.writer_id, " +
                     "article.created_at, article.modified_at " +
@@ -26,4 +27,12 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             @Param("offset") Long offset,
             @Param("limit") Long limit
     );
+
+    //카운트 쿼리
+    @Query(
+            value="select count(*) from (" +
+                    " select article_id from article where board_id = :boardId limit :limit) t",
+            nativeQuery = true
+    )
+    Long count(@Param("boardId") Long boardId, @Param("limit") Long limit);
 }
