@@ -25,6 +25,7 @@ Spring Boot 기반 게시판 프로젝트
 ## 🧠 What I Learned
 - [java.lang.ClassNotFoundException 해결하기](docs/spring/trouble-shooting/class-not-found-exception-solution.md)
 - [Docker MySQL + Spring Boot 연결 오류 해결기 (feat. 포트 충돌)](docs/spring/trouble-shooting/port-collision.md)
+- [스프링부트에서의 테스트](docs/spring/study/test.md)
 - [테스트 클래스에서 API 테스트하기](docs/spring/study/test-rest-client.md)
 - [AccessLevel 이해하기](docs/spring/study/access-level.md)
 
