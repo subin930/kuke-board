@@ -1,3 +1,25 @@
+# Kuke Board
+
+Spring Boot 기반 게시판 프로젝트
+
+## 🔧 Tech Stack
+- Java 21
+- Spring Boot 3.3.2
+- Spring Data JPA
+- MySQL
+
+## 📚 Study Notes
+- [대규모 시스템 서버 인프라 기초](docs/study/large-scale-system.md)
+- [분산 관계형 데이터베이스](docs/study/distributed-relational-db.md)
+- [Primary Key 생성 전략 & Snowflake](docs/study/primary-key-generation-strategy.md)
+- [데이터베이스 인덱스](docs/study/db-index.md)
+- [효율적인 페이지네이션 구현](docs/study/pagination.md)
+- [무한 스크롤 구현](docs/study/infinite-scroll.md)
+
+## 🧠 What I Learned
+- [java.lang.ClassNotFoundException 해결하기](docs/spring/trouble-shooting/class-not-found-exception-solution.md)
+- [Docker MySQL + Spring Boot 연결 오류 해결기 (feat. 포트 충돌)](docs/spring/trouble-shooting/port-collision.md)
+
 ## 참고 자료(Reference)
 
 이 프로젝트는 아래 강의를 참고하여 작성했습니다.
