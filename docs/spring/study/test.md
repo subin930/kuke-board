@@ -168,8 +168,7 @@ commentService = new CommentService(commentRepository);
 
 | 목적             | 어노테이션                      |
 | -------------- |----------------------------|
-| Controller 테스트 | @WebMvcTest    <br>Controller 테스트에서는 HTTP 요청/응답, 상태 코드, JSON 구조만 검증한다. <br>비즈니스 로직은 검증하지 않는다.
-  |
+| Controller 테스트 | @WebMvcTest    <br>Controller 테스트에서는 HTTP 요청/응답, 상태 코드, JSON 구조만 검증한다. <br>비즈니스 로직은 검증하지 않는다.<br/>|
 | Service 로직     | Mockito + JUnit (스프링을 띄우지 않는다) |
 | JPA 검증         | @DataJpaTest               |
 | JSON 검증        | @JsonTest                  |
