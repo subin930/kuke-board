@@ -4,6 +4,10 @@ import kuke.board.like.service.response.ArticleLikeResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.client.RestClient;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 class ArticleLikeApiTest {
     RestClient restClient = RestClient.create("http://localhost:9002");
 
@@ -11,9 +15,9 @@ class ArticleLikeApiTest {
     void likeAndUnlikeTest() {
         Long articleId = 9999L;
 
-        like(articleId, 1L);
-        like(articleId, 2L);
-        like(articleId, 3L);
+        like(articleId, 1L, "pessimistic-lock-1");
+        like(articleId, 2L, "pessimistic-lock-1");
+        like(articleId, 3L, "pessimistic-lock-1");
 
         ArticleLikeResponse read1 = read(articleId, 1L);
         ArticleLikeResponse read2 = read(articleId, 2L);
@@ -36,9 +40,9 @@ class ArticleLikeApiTest {
                 .body(ArticleLikeResponse.class);
     }
 
-    void like(Long articleId, Long userId) {
+    void like(Long articleId, Long userId, String lockType) {
         restClient.post()
-                .uri("/v1/article-likes/articles/{articleId}/users/{userId}", articleId, userId)
+                .uri("/v1/article-likes/articles/{articleId}/users/{userId}/" + lockType, articleId, userId)
                 .retrieve();
     }
 
@@ -46,5 +50,43 @@ class ArticleLikeApiTest {
         restClient.delete()
                 .uri("/v1/article-likes/articles/{articleId}/users/{userId}", articleId, userId)
                 .retrieve();
+    }
+
+    @Test
+    void likePerformanceTest() throws InterruptedException {
+        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        likePerformanceTest(executorService, 1111L, "pessimistic-lock-1");
+        likePerformanceTest(executorService, 2222L, "pessimistic-lock-2");
+        likePerformanceTest(executorService, 3333L, "optimistic-lock"); //동시 요청 시 롤백하기 때문에 좋아요 수가 정확하게 카운트되지 않는다.
+    }
+
+    void likePerformanceTest(ExecutorService executorService, Long articleId, String lockType) throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(3000);
+        System.out.println(lockType + " start");
+
+        like(articleId, 1L, lockType); //최초 요청 - 초기화
+
+        long start = System.nanoTime();
+        for (int i = 0; i < 3000; i++) {
+            long userId = i + 2;
+            executorService.execute(() -> {
+                like(articleId, userId, lockType);
+                latch.countDown();
+            });
+        }
+
+        latch.await();
+
+        long end = System.nanoTime();
+
+        System.out.println("lockType = " + lockType + ", time = " + (end - start) / 1000000 + "ms");
+        System.out.println(lockType + " end");
+
+        Long count = restClient.get()
+                .uri("/v1/article-likes/articles/{articleId}/users/count", articleId)
+                .retrieve()
+                .body(Long.class);
+
+        System.out.println("count = " + count);
     }
 }
