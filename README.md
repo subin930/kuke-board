@@ -24,7 +24,7 @@ Spring Boot 기반 게시판 프로젝트
 - [스프링부트에서의 테스트](docs/spring/study/test.md)
 - [테스트 클래스에서 API 테스트하기](docs/spring/study/test-rest-client.md)
 - [무한 depth 댓글 설계 및 구현하기](docs/study/infinite-depth-comments.md)
-
+- [동시 쓰기 요청을 데이터 유실/장애 없이 해결하기(비관적 락, 낙관적 락, 비동기 순차 처리)](docs/study/lock-type.md)
 <br />
 
 ## 🧠 What I Learned
