@@ -19,7 +19,7 @@ public class ArticleViewCountRepository {
     }
 
     public Long increase(Long articleId) {
-        return redisTemplate.opsForValue().increment(generateKey(articleId));
+        return redisTemplate.opsForValue().increment(generateKey(articleId)); //증가된 이후의 값 반환
     }
 
     private String generateKey(Long articleId) {
