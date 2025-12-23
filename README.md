@@ -9,6 +9,7 @@ Spring Boot 기반 게시판 프로젝트
 - Spring Boot 3.3.2
 - Spring Data JPA
 - MySQL
+- Redis 7.4
 
 <br />
 
